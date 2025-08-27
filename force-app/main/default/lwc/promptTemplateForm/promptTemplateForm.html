@@ -1,0 +1,200 @@
+<template>
+    <div class="template-form-container">
+        <div class="form-header">
+            <h3 class="slds-text-heading_small">
+                <lightning-icon 
+                    icon-name="utility:template" 
+                    size="small" 
+                    class="slds-m-right_x-small">
+                </lightning-icon>
+                Save as Prompt Template
+            </h3>
+        </div>
+
+        <div class="form-body">
+            <!-- Template Name -->
+            <lightning-input
+                label="Template Name"
+                name="templateName"
+                value={templateName}
+                placeholder="Enter template name"
+                required
+                onchange={handleTemplateNameChange}>
+            </lightning-input>
+
+            <!-- Template Description -->
+            <lightning-textarea
+                label="Description"
+                name="templateDescription"
+                value={templateDescription}
+                placeholder="Describe what this prompt template does..."
+                rows="3"
+                onchange={handleDescriptionChange}>
+            </lightning-textarea>
+
+            <!-- Prompt Content -->
+            <lightning-textarea
+                label="Prompt Content"
+                name="promptContent"
+                value={promptContent}
+                placeholder="Enter or edit the prompt content..."
+                rows="6"
+                required
+                class="dynamic-prompt-content"
+                onchange={handlePromptContentChange}>
+            </lightning-textarea>
+
+            <!-- Template Category -->
+            <lightning-combobox
+                label="Category"
+                name="templateCategory"
+                value={templateCategory}
+                placeholder="Select a category"
+                options={categoryOptions}
+                onchange={handleCategoryChange}>
+            </lightning-combobox>
+
+            <!-- Variables Section -->
+            <div class="variables-section">
+                <h4 class="slds-text-heading_small slds-m-bottom_small">
+                    <lightning-icon 
+                        icon-name="utility:variable" 
+                        size="x-small" 
+                        class="slds-m-right_x-small">
+                    </lightning-icon>
+                    Template Variables
+                </h4>
+                
+                <div class="variable-list">
+                    <template if:true={templateVariables.length}>
+                        <template for:each={templateVariables} for:item="variable" for:index="index">
+                            <div key={variable.id} class="variable-item">
+                                <lightning-input
+                                    name="variableName"
+                                    value={variable.name}
+                                    placeholder="Variable name"
+                                    class="variable-name"
+                                    onchange={handleVariableChange}
+                                    data-index={index}
+                                    data-field="name">
+                                </lightning-input>
+                                
+                                <lightning-input
+                                    name="variableDescription"
+                                    value={variable.description}
+                                    placeholder="Description"
+                                    class="variable-description"
+                                    onchange={handleVariableChange}
+                                    data-index={index}
+                                    data-field="description">
+                                </lightning-input>
+                                
+                                <lightning-button-icon
+                                    icon-name="utility:delete"
+                                    variant="bare"
+                                    alternative-text="Remove variable"
+                                    class="delete-variable-btn"
+                                    onclick={handleRemoveVariable}
+                                    data-index={index}>
+                                </lightning-button-icon>
+                            </div>
+                        </template>
+                    </template>
+                    
+                    <lightning-button
+                        label="Add Variable"
+                        variant="neutral"
+                        icon-name="utility:add"
+                        onclick={handleAddVariable}
+                        class="add-variable-btn">
+                    </lightning-button>
+                </div>
+            </div>
+
+            <!-- Context7 Libraries Used -->
+            <template if:true={context7Libraries.length}>
+                <div class="context7-section">
+                    <h4 class="slds-text-heading_small slds-m-bottom_small">
+                        <lightning-icon 
+                            icon-name="utility:knowledge_base" 
+                            size="x-small" 
+                            class="slds-m-right_x-small">
+                        </lightning-icon>
+                        Context7 Libraries
+                    </h4>
+                    
+                    <div class="library-list">
+                        <template for:each={context7Libraries} for:item="library">
+                            <div key={library.libraryId} class="library-item">
+                                <span class="library-name">{library.name}</span>
+                                <span class="library-version">v{library.version}</span>
+                            </div>
+                        </template>
+                    </div>
+                </div>
+            </template>
+
+            <!-- Action Buttons -->
+            <div class="form-actions">
+                <lightning-button-group>
+                    <lightning-button
+                        label="Save Template"
+                        variant="brand"
+                        icon-name="utility:save"
+                        onclick={handleSaveTemplate}
+                        disabled={isSavingOrInvalid}>
+                    </lightning-button>
+                    
+                    <lightning-button
+                        label="Preview"
+                        variant="neutral"
+                        icon-name="utility:preview"
+                        onclick={handlePreviewTemplate}>
+                    </lightning-button>
+                    
+                    <lightning-button
+                        label="Reset"
+                        variant="neutral"
+                        icon-name="utility:refresh"
+                        onclick={handleResetForm}>
+                    </lightning-button>
+                </lightning-button-group>
+            </div>
+        </div>
+
+        <!-- Preview Modal -->
+        <template if:true={showPreview}>
+            <section role="dialog" tabindex="-1" class="slds-modal slds-fade-in-open">
+                <div class="slds-modal__container">
+                    <header class="slds-modal__header">
+                        <h2 class="slds-text-heading_medium">Template Preview</h2>
+                        <lightning-button-icon
+                            icon-name="utility:close"
+                            variant="bare"
+                            alternative-text="Close"
+                            onclick={handleClosePreview}>
+                        </lightning-button-icon>
+                    </header>
+                    
+                    <div class="slds-modal__content slds-p-around_medium">
+                        <div class="preview-content">
+                            <h3>{templateName}</h3>
+                            <p class="slds-text-body_small">{templateDescription}</p>
+                            <div class="preview-prompt">
+                                <pre><code>{promptContent}</code></pre>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <footer class="slds-modal__footer">
+                        <lightning-button
+                            label="Close"
+                            onclick={handleClosePreview}>
+                        </lightning-button>
+                    </footer>
+                </div>
+            </section>
+            <div class="slds-backdrop slds-backdrop_open"></div>
+        </template>
+    </div>
+</template>

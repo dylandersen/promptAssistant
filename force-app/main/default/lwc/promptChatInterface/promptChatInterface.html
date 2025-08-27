@@ -1,0 +1,104 @@
+<template>
+    <div class="chat-container">
+        <lightning-card class="chat-card">
+            
+            <!-- Messages Container -->
+            <div class="messages-container">
+                <template for:each={messages} for:item="message">
+                    <div key={message.id} class={message.messageClass}>
+                        <div class="message-content">
+                            <div class="message-header">
+                                <span class="message-type">
+                                    <lightning-icon icon-name={message.iconName} size="x-small"></lightning-icon>
+                                    {message.displayName}
+                                </span>
+                                <span class="message-time">
+                                    {message.formattedTime}
+                                </span>
+                            </div>
+                            <div class="message-text">
+                                <template if:true={message.isFormatted}>
+                                    <div class="formatted-content">{message.formattedContent}</div>
+                                </template>
+                                <template if:false={message.isFormatted}>
+                                    {message.content}
+                                </template>
+                            </div>
+                        </div>
+                    </div>
+                </template>
+                
+                <!-- Enhanced Loading indicator -->
+                <template if:true={isGenerating}>
+                    <div class="loading-message">
+                        <div class="loading-content">
+                            <lightning-spinner alternative-text="Generating prompt..." size="small"></lightning-spinner>
+                            <div class="loading-text">
+                                <div class="loading-title">Generating your prompt...</div>
+                                <div class="loading-subtitle">Using Agentforce to create the perfect prompt template</div>
+                            </div>
+                        </div>
+                        <div class="loading-dots">
+                            <span class="dot"></span>
+                            <span class="dot"></span>
+                            <span class="dot"></span>
+                        </div>
+                    </div>
+                </template>
+            </div>
+            
+            <!-- Input Area -->
+            <div class="input-container">
+                <div class="slds-grid slds-gutters">
+                    <div class="slds-col">
+                        <lightning-textarea
+                            name="userInput"
+                            label="Type your request"
+                            label-hidden="true"
+                            placeholder={inputPlaceholder}
+                            variant="label-hidden"
+                            rows="3"
+                            value={userInput}
+                            onchange={handleInputChange}
+                            onkeydown={handleKeyDown}
+                            disabled={isGenerating}
+                            class={inputClass}>
+                        </lightning-textarea>
+                    </div>
+                </div>
+                
+                <div class="slds-m-top_medium slds-grid slds-grid_align-end">
+                    <lightning-button-group>
+                        <template if:true={isGenerating}>
+                            <lightning-button 
+                                label="Generating..."
+                                variant="brand"
+                                icon-name="utility:spinner"
+                                disabled={isGeneratingDisabled}
+                                class="generating-button">
+                            </lightning-button>
+                        </template>
+                        
+                        <template if:false={isGenerating}>
+                            <lightning-button 
+                                label="Generate Prompt"
+                                variant="brand"
+                                icon-name="utility:send"
+                                onclick={handleGeneratePrompt}
+                                disabled={isGenerating}>
+                            </lightning-button>
+                        </template>
+                        
+                        <lightning-button 
+                            label="Clear"
+                            variant="neutral"
+                            icon-name="utility:clear"
+                            onclick={handleClearChat}
+                            disabled={isGenerating}>
+                        </lightning-button>
+                    </lightning-button-group>
+                </div>
+            </div>
+        </lightning-card>
+    </div>
+</template>

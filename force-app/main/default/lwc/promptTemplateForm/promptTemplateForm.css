@@ -1,0 +1,170 @@
+/* Prompt Template Form Styles */
+
+/* Main Container */
+.template-form-container {
+    padding: var(--lwc-spacingMedium);
+}
+
+/* Form Header */
+.form-header {
+    margin-bottom: var(--lwc-spacingMedium);
+    padding-bottom: var(--lwc-spacingSmall);
+    border-bottom: 1px solid var(--lwc-colorBorder);
+}
+
+.form-header h3 {
+    display: flex;
+    align-items: center;
+    margin: 0;
+    color: var(--lwc-colorTextDefault);
+}
+
+/* Form Body */
+.form-body {
+    display: flex;
+    flex-direction: column;
+    gap: var(--lwc-spacingMedium);
+}
+
+/* Dynamic Prompt Content - Auto-expand vertically */
+.dynamic-prompt-content {
+    min-height: 120px; /* 6 rows minimum */
+    transition: height 0.3s ease;
+}
+
+/* Make the textarea expand to fit content */
+.dynamic-prompt-content lightning-textarea {
+    height: auto;
+}
+
+/* Variables Section */
+.variables-section {
+    border: 1px solid var(--lwc-colorBorder);
+    border-radius: var(--lwc-borderRadiusMedium);
+    padding: var(--lwc-spacingMedium);
+    background: var(--lwc-colorBackgroundAlt);
+}
+
+.variables-section h4 {
+    display: flex;
+    align-items: center;
+    margin: 0 0 var(--lwc-spacingSmall) 0;
+    color: var(--lwc-colorTextDefault);
+}
+
+.variable-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--lwc-spacingSmall);
+}
+
+.variable-item {
+    display: flex;
+    gap: var(--lwc-spacingSmall);
+    align-items: center;
+}
+
+.variable-name {
+    flex: 1;
+}
+
+.variable-description {
+    flex: 2;
+}
+
+.delete-variable-btn {
+    color: var(--lwc-colorTextError);
+}
+
+.add-variable-btn {
+    align-self: flex-start;
+    margin-top: var(--lwc-spacingSmall);
+}
+
+/* Context7 Libraries Section */
+.context7-section {
+    border: 1px solid var(--lwc-colorBorder);
+    border-radius: var(--lwc-borderRadiusMedium);
+    padding: var(--lwc-spacingMedium);
+    background: var(--lwc-colorBackgroundAlt);
+}
+
+.context7-section h4 {
+    display: flex;
+    align-items: center;
+    margin: 0 0 var(--lwc-spacingSmall) 0;
+    color: var(--lwc-colorTextDefault);
+}
+
+.library-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--lwc-spacingXSmall);
+}
+
+.library-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: var(--lwc-spacingXSmall);
+    background: var(--lwc-colorBackground);
+    border-radius: var(--lwc-borderRadiusSmall);
+}
+
+.library-name {
+    font-weight: 500;
+    color: var(--lwc-colorTextDefault);
+}
+
+.library-version {
+    color: var(--lwc-colorTextWeak);
+    font-size: 0.875rem;
+}
+
+/* Form Actions */
+.form-actions {
+    margin-top: var(--lwc-spacingLarge);
+    padding-top: var(--lwc-spacingMedium);
+    border-top: 1px solid var(--lwc-colorBorder);
+}
+
+/* Preview Modal */
+.slds-modal__container {
+    max-width: 800px;
+    width: 90%;
+}
+
+.preview-content h3 {
+    color: var(--lwc-colorTextDefault);
+    margin-bottom: var(--lwc-spacingSmall);
+}
+
+.preview-prompt {
+    margin-top: var(--lwc-spacingMedium);
+    padding: var(--lwc-spacingMedium);
+    background: var(--lwc-colorBackgroundAlt);
+    border-radius: var(--lwc-borderRadiusMedium);
+    border: 1px solid var(--lwc-colorBorder);
+}
+
+.preview-prompt pre {
+    margin: 0;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+    font-size: 0.875rem;
+    line-height: 1.5;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .variable-item {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    
+    .variable-name,
+    .variable-description {
+        flex: none;
+    }
+}

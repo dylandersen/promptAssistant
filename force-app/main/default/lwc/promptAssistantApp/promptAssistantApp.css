@@ -1,0 +1,64 @@
+/* Main App Container Styles */
+:host {
+    display: block;
+    min-height: 100vh;
+    background: var(--lwc-colorBackgroundAlt);
+}
+
+/* Responsive Grid Adjustments */
+@media (max-width: 768px) {
+    .slds-col {
+        width: 100% !important;
+        margin-bottom: var(--lwc-spacingMedium);
+    }
+}
+
+/* Card Enhancements */
+lightning-card {
+    border-radius: var(--lwc-borderRadiusMedium);
+    box-shadow: var(--lwc-shadowDropDown);
+}
+
+/* Header Styles - Ensure native title visibility */
+lightning-card::part(header) {
+    background: var(--lwc-colorBackground);
+    border-bottom: 1px solid var(--lwc-colorBorder);
+}
+
+lightning-card::part(header) lightning-icon {
+    color: var(--lwc-colorBrand);
+}
+
+/* Status Indicator Styles */
+.context7-status {
+    border-left: 4px solid var(--lwc-colorBrand);
+    background: #f3f2f2;
+    padding: var(--lwc-spacingSmall);
+    margin-top: var(--lwc-spacingMedium);
+}
+
+/* Loading States */
+.loading-spinner {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 200px;
+}
+
+/* Error States */
+.error-container {
+    background: var(--lwc-colorBackgroundToastError);
+    border: 1px solid var(--lwc-colorBorderError);
+    border-radius: var(--lwc-borderRadiusMedium);
+    padding: var(--lwc-spacingMedium);
+    margin: var(--lwc-spacingMedium) 0;
+}
+
+/* Success States */
+.success-indicator {
+    background: var(--lwc-colorBackgroundToastSuccess);
+    border: 1px solid var(--lwc-colorBorderSuccess);
+    border-radius: var(--lwc-borderRadiusMedium);
+    padding: var(--lwc-spacingSmall);
+    margin: var(--lwc-spacingSmall) 0;
+}

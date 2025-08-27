@@ -1,0 +1,292 @@
+/* Chat Container Styles */
+.chat-container {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.chat-card {
+    height: 100%;
+    border-radius: var(--lwc-borderRadiusLarge);
+    box-shadow: var(--lwc-shadowDropDown);
+}
+
+/* Messages Container */
+.messages-container {
+    height: 650px;
+    overflow-y: auto;
+    padding: var(--lwc-spacingMedium);
+    background: var(--lwc-colorBackgroundAlt);
+    border-radius: var(--lwc-borderRadiusMedium);
+    margin-bottom: var(--lwc-spacingMedium);
+    display: flex;
+    flex-direction: column;
+    gap: var(--lwc-spacingMedium);
+}
+
+/* Message Styles */
+.message {
+    margin-bottom: var(--lwc-spacingMedium);
+    padding: var(--lwc-spacingMedium);
+    border-radius: var(--lwc-borderRadiusMedium);
+    position: relative;
+}
+
+/* Message Header Styles */
+.message-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--lwc-spacingSmall);
+    font-size: 0.875rem;
+}
+
+.message-type {
+    display: flex;
+    align-items: center;
+    gap: var(--lwc-spacingXSmall);
+    font-weight: 500;
+    color: var(--lwc-colorTextDefault);
+}
+
+.message-time {
+    color: var(--lwc-colorTextWeak);
+    font-size: 0.75rem;
+}
+
+/* Formatted Content Styles */
+.formatted-content {
+    line-height: 1.6;
+    white-space: pre-wrap;
+    font-family: inherit;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+}
+
+.message-user {
+    background: var(--lwc-colorBrand);
+    color: white;
+    margin-left: 20%;
+    border-bottom-right-radius: var(--lwc-borderRadiusSmall);
+}
+
+.message-assistant {
+    background: var(--lwc-colorBackground);
+    border: 1px solid var(--lwc-colorBorder);
+    margin-right: 20%;
+    border-bottom-left-radius: var(--lwc-borderRadiusSmall);
+}
+
+.message-error {
+    background: var(--lwc-colorBackgroundToastError);
+    border: 1px solid var(--lwc-colorBorderError);
+    color: var(--lwc-colorTextError);
+}
+
+/* Loading Message */
+.loading-message {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: var(--lwc-spacingLarge);
+    background: var(--lwc-colorBackground);
+    border: 1px solid var(--lwc-colorBorder);
+    border-radius: var(--lwc-borderRadiusMedium);
+    margin: var(--lwc-spacingMedium) 0;
+    text-align: center;
+}
+
+.loading-content {
+    display: flex;
+    align-items: center;
+    margin-bottom: var(--lwc-spacingMedium);
+}
+
+.loading-text {
+    margin-left: var(--lwc-spacingMedium);
+}
+
+.loading-title {
+    font-weight: bold;
+    color: var(--lwc-colorTextDefault);
+    margin-bottom: var(--lwc-spacingXSmall);
+}
+
+.loading-subtitle {
+    font-size: 0.875rem;
+    color: var(--lwc-colorTextWeak);
+}
+
+.loading-dots {
+    display: flex;
+    gap: var(--lwc-spacingXSmall);
+}
+
+.dot {
+    width: 8px;
+    height: 8px;
+    background: var(--lwc-colorBrand);
+    border-radius: 50%;
+    animation: pulse 1.5s ease-in-out infinite;
+}
+
+.dot:nth-child(2) {
+    animation-delay: 0.2s;
+}
+
+.dot:nth-child(3) {
+    animation-delay: 0.4s;
+}
+
+@keyframes pulse {
+    0%, 100% {
+        opacity: 0.4;
+        transform: scale(0.8);
+    }
+    50% {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+/* Input Container */
+.input-container {
+    padding: var(--lwc-spacingMedium);
+    background: var(--lwc-colorBackground);
+    border-top: 1px solid var(--lwc-colorBorder);
+    border-radius: 0 0 var(--lwc-borderRadiusMedium) var(--lwc-borderRadiusMedium);
+}
+
+/* Disabled Input State */
+.input-disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+/* Generating Button State */
+.generating-button {
+    background: var(--lwc-colorBrand);
+    color: white;
+    cursor: not-allowed;
+}
+
+/* Suggestions */
+.suggestions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--lwc-spacingXSmall);
+    margin-top: var(--lwc-spacingSmall);
+}
+
+.suggestion-chip {
+    background: var(--lwc-colorBackgroundAlt);
+    border: 1px solid var(--lwc-colorBorder);
+    border-radius: var(--lwc-borderRadiusMedium);
+    padding: var(--lwc-spacingXSmall) var(--lwc-spacingSmall);
+    font-size: 0.875rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.suggestion-chip:hover {
+    background: var(--lwc-colorBackground);
+    border-color: var(--lwc-colorBrand);
+}
+
+/* Message Actions */
+.message-actions {
+    display: flex;
+    gap: var(--lwc-spacingXSmall);
+    margin-top: var(--lwc-spacingXSmall);
+    opacity: 0;
+    transition: opacity 0.2s ease;
+}
+
+.message:hover .message-actions {
+    opacity: 1;
+}
+
+.message-action-btn {
+    background: none;
+    border: none;
+    padding: var(--lwc-spacingXSmall);
+    border-radius: var(--lwc-borderRadiusSmall);
+    cursor: pointer;
+    color: var(--lwc-colorTextPlaceholder);
+    transition: all 0.2s ease;
+}
+
+.message-action-btn:hover {
+    background: var(--lwc-colorBackground);
+    color: var(--lwc-colorTextDefault);
+}
+
+/* Salesforce Models API Integration Styles */
+.salesforce-badge {
+    display: inline-flex;
+    align-items: center;
+    background: linear-gradient(135deg, #00a1e0 0%, #1589ee 100%);
+    color: white;
+    padding: var(--lwc-spacingXSmall) var(--lwc-spacingSmall);
+    border-radius: var(--lwc-borderRadiusSmall);
+    font-size: 0.875rem;
+    margin-left: var(--lwc-spacingSmall);
+}
+
+.salesforce-icon {
+    width: 12px;
+    height: 12px;
+    margin-right: var(--lwc-spacingXSmall);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .messages-container {
+        height: 300px;
+    }
+    
+    .message-user,
+    .message-assistant {
+        margin-left: var(--lwc-spacingSmall);
+        margin-right: var(--lwc-spacingSmall);
+    }
+    
+    .suggestions {
+        flex-direction: column;
+    }
+}
+
+/* Animation for new messages */
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.message {
+    animation: slideIn 0.3s ease-out;
+}
+
+/* Scrollbar Styling */
+.messages-container::-webkit-scrollbar {
+    width: 6px;
+}
+
+.messages-container::-webkit-scrollbar-track {
+    background: var(--lwc-colorBackground);
+    border-radius: var(--lwc-borderRadiusSmall);
+}
+
+.messages-container::-webkit-scrollbar-thumb {
+    background: var(--lwc-colorBorder);
+    border-radius: var(--lwc-borderRadiusSmall);
+}
+
+.messages-container::-webkit-scrollbar-thumb:hover {
+    background: var(--lwc-colorBorder);
+}
