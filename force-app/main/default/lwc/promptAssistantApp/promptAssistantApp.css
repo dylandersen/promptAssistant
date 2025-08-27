@@ -29,6 +29,30 @@ lightning-card::part(header) lightning-icon {
     color: var(--lwc-colorBrand);
 }
 
+/* Footer Styles */
+.footer-container {
+    display: flex;
+    justify-content: flex-start;
+    margin-top: var(--lwc-spacingMedium);
+    padding: 0 var(--lwc-spacingMedium);
+}
+
+.footer-box {
+    display: inline-flex;
+    align-items: center;
+    background: var(--lwc-colorBackgroundAlt);
+    color: var(--lwc-colorTextDefault);
+    padding: var(--lwc-spacingSmall) var(--lwc-spacingMedium);
+    border-radius: var(--lwc-borderRadiusMedium);
+    border: 1px solid var(--lwc-colorBorder);
+    box-shadow: var(--lwc-shadowDropDown);
+    max-width: fit-content;
+}
+
+.footer-box lightning-icon {
+    color: var(--lwc-colorBrand);
+}
+
 /* Status Indicator Styles */
 .context7-status {
     border-left: 4px solid var(--lwc-colorBrand);

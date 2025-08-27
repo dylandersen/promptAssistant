@@ -1,7 +1,7 @@
 import { LightningElement, track, api } from 'lwc';
 import generatePrompt from '@salesforce/apex/PromptAssistantController.generatePrompt';
 
-// Version: 1.0.4 - Simplified template-based approach for better reliability
+// Version: 1.0.5 - Added avatar support and messageItem component integration
 
 export default class PromptChatInterface extends LightningElement {
     @api sessionId;
@@ -66,8 +66,6 @@ export default class PromptChatInterface extends LightningElement {
         return formatted;
     }
 
-
-
     connectedCallback() {
         // Initialize the component - no DOM manipulation here
         this.isInitialized = true;
@@ -84,10 +82,10 @@ export default class PromptChatInterface extends LightningElement {
                     content: 'Hello! I\'m your Agentforce-powered prompt assistant. I\'ll help you create effective prompts for Salesforce Prompt Builder using native AI capabilities.',
                     timestamp: new Date().toISOString(),
                     suggestions: [
-                        'Create a lead qualification prompt',
-                        'Generate a customer service response',
-                        'Build a sales follow-up template',
-                        'Design a data analysis prompt'
+                        'Create a sales email prompt',
+                        'Generate a case wrap-up prompt',
+                        'Build a campaign promo prompt',
+                        'Design a call transcript analysis prompt'
                     ]
                 });
             }, 200); // Increased delay for better DOM readiness
@@ -178,6 +176,19 @@ export default class PromptChatInterface extends LightningElement {
         }
     }
 
+    // Handle suggestion clicks
+    handleSuggestionClick(event) {
+        const suggestion = event.detail.suggestion;
+        this.userInput = suggestion;
+        // Focus the input box for better UX
+        setTimeout(() => {
+            const textarea = this.template.querySelector('lightning-textarea');
+            if (textarea) {
+                textarea.focus();
+            }
+        }, 100);
+    }
+
     // Handle message actions (copy, edit, etc.)
     handleMessageAction(event) {
         const { action, messageId } = event.detail;
@@ -202,12 +213,8 @@ export default class PromptChatInterface extends LightningElement {
         // Create a processed message object with computed properties
         const processedMessage = {
             ...message,
-            messageClass: `message message-${message.type}`,
-            iconName: message.type === 'user' ? 'utility:user' : 'utility:bot',
-            displayName: message.type === 'user' ? 'You' : 'Assistant',
-            formattedTime: new Date(message.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
-            isFormatted: message.type === 'assistant' && this.shouldFormatContent(message.content),
-            formattedContent: message.type === 'assistant' ? this.formatLLMContent(message.content) : null
+            timestamp: message.timestamp || new Date().toISOString(),
+            metadata: message.metadata || {}
         };
         
         this.messages = [...this.messages, processedMessage];
@@ -241,6 +248,12 @@ export default class PromptChatInterface extends LightningElement {
             type: 'assistant',
             content: 'Hello! I\'m your Agentforce-powered prompt assistant. I\'ll help you create effective prompts for Salesforce Prompt Builder using native AI capabilities.',
             timestamp: new Date().toISOString(),
+            suggestions: [
+                'Create a sales email prompt',
+                'Generate a case wrap-up prompt',
+                'Build a campaign promo prompt',
+                'Design a call transcript analysis prompt'
+            ]
         });
     }
 

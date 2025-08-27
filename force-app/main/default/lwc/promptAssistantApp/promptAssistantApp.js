@@ -1,8 +1,11 @@
 import { LightningElement, track } from 'lwc';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 
+// Version: 1.0.1 - Added avatar support and footer improvements
+
 export default class PromptAssistantApp extends LightningElement {
     @track generatedPrompt = '';
+    @track isGenerating = false;
     @track context7Status = {
         isConnected: false,
         lastActivity: null,
@@ -11,8 +14,8 @@ export default class PromptAssistantApp extends LightningElement {
 
     // Handle prompt generation from chat interface
     handlePromptGenerated(event) {
-        this.generatedPrompt = event.detail.prompt;
-        this.showToast('Success', 'Prompt generated successfully!', 'success');
+        const { prompt } = event.detail;
+        this.generatedPrompt = prompt;
     }
 
     // Handle Context7 library resolution
@@ -32,13 +35,10 @@ export default class PromptAssistantApp extends LightningElement {
         console.log('Context7 Documentation Retrieved:', docsData);
     }
 
-    // Handle saving prompt template
+    // Handle template save
     handleSaveTemplate(event) {
-        const templateData = event.detail;
-        
-        // TODO: Integrate with Prompt Builder API
-        console.log('Saving Prompt Template:', templateData);
-        this.showToast('Success', 'Prompt template saved successfully!', 'success');
+        // Handle template saving logic
+        console.log('Template saved:', event.detail);
     }
 
     // Utility method for showing toast notifications

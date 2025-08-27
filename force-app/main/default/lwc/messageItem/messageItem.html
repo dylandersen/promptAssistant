@@ -2,17 +2,34 @@
     <div class={messageClass}>
         <div class="message-content">
             <div class="message-header">
-                <span class="message-type">
-                    <lightning-icon 
-                        icon-name={messageIcon} 
-                        size="x-small" 
-                        class="slds-m-right_x-small">
-                    </lightning-icon>
-                    {messageTypeLabel}
-                </span>
-                <span class="message-time">
-                    {formattedTime}
-                </span>
+                <div class="message-avatar-container">
+                    <template if:true={isUserMessage}>
+                        <div class="avatar-circle user-avatar">
+                            <lightning-icon 
+                                icon-name="utility:user" 
+                                size="x-small"
+                                class="avatar-icon">
+                            </lightning-icon>
+                        </div>
+                    </template>
+                    <template if:true={isAssistantMessage}>
+                        <div class="avatar-circle assistant-avatar">
+                            <lightning-icon 
+                                icon-name="utility:robot" 
+                                size="x-small"
+                                class="avatar-icon">
+                            </lightning-icon>
+                        </div>
+                    </template>
+                    <div class="message-info">
+                        <span class="message-type">
+                            {messageTypeLabel}
+                        </span>
+                        <span class="message-time">
+                            {formattedTime}
+                        </span>
+                    </div>
+                </div>
                 <div class="context7-badges" if:true={hasContext7Data}>
                     <span class="context7-badge">
                         <lightning-icon 
