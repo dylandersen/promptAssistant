@@ -1,55 +1,29 @@
-# Prompt Assistant - Agentforce-Powered LWC App
+# Prompt Assistant - Built by a Salesforce SE for SEs
 
-A modern, professional Lightning Web Component (LWC) application that provides an intelligent chat interface for generating effective prompt templates for Salesforce Prompt Builder. Built with native Agentforce AI capabilities and featuring a polished, avatar-enhanced user experience with seamless Prompt Builder integration.
+Hey there! I'm Dylan, a Solution Engineer at Salesforce. I built this Lightning Web Component (LWC) app to help my fellow SEs (or anyone really) quickly create effective prompt templates for demos, POCs, and customer implementations. 
 
-## 🚀 **What This App Does**
+As SEs, we're constantly asked to show off Prompt Builder capabilities, but creating good prompt templates from scratch takes time we don't always have. This app uses Agentforce AI to generate professional prompt templates that you can copy directly into Prompt Builder - no complex setup required.
 
-### **Core Functionality**
-- **AI-Powered Chat Interface**: ChatGPT-style conversation with Agentforce AI
-- **Smart Prompt Generation**: Creates professional prompt templates for any Salesforce use case
-- **Copy & Paste Integration**: Seamlessly copy templates to Salesforce Prompt Builder
-- **Native Salesforce Integration**: Uses built-in Models API, no external dependencies
+## 🚀 **Why I Built This**
+
+### **The SE Problem**
+- **Demo Pressure**: Customers want to see Prompt Builder in action, but building templates takes forever
+- **Template Quality**: Generic templates don't showcase the real power of Agentforce
+- **Time Constraints**: We need to focus on the business value, not template syntax
+- **Consistency**: Every SE should have access to high-quality, tested templates
+
+### **The Solution**
+- **AI-Powered Generation**: Describe what you need in plain English, get a professional template
+- **SE-Tested Templates**: Built with real customer scenarios in mind
+- **Copy & Paste Ready**: No complex deployment - just copy to Prompt Builder and go
+- **Demo-Ready**: Templates that actually impress customers and show real business value
 
 ### **Key Features**
 - **Modern Chat UI**: Clean, responsive interface with distinct user/assistant messaging
-- **Avatar System**: Visual distinction between user (blue) and assistant (purple) messages
 - **Smart Suggestions**: Clickable prompt templates that populate the input box
 - **Real-time Generation**: Instant AI-powered prompt creation
 - **Copy & Paste Workflow**: One-click copy to clipboard with Prompt Builder integration
-- **Professional Styling**: SLDS2 compliant with custom enhancements
-
-## 🎨 **User Experience Features**
-
-### **Chat Interface**
-- **User Messages**: Light blue bubbles with user avatars, right-aligned
-- **Assistant Messages**: White bubbles with robot avatars, left-aligned
-- **Timestamps**: Right-aligned on same line as usernames
-- **Responsive Design**: Works seamlessly on all devices
-
-### **Avatar System**
-- **User Avatar**: Blue circular avatar with white user icon (28px)
-- **Assistant Avatar**: Purple circular avatar with white robot icon (28px)
-- **Professional Appearance**: Clean, contained design with subtle shadows
-- **Visual Hierarchy**: Clear distinction between message types
-
-### **Smart Suggestions**
-- **Welcome Message**: Four clickable prompt templates
-- **One-Click Population**: Click any suggestion to fill the input box
-- **Customizable**: Easy to modify suggestion text
-- **Professional Templates**: Pre-built for common Salesforce scenarios
-
-### **Loading States**
-- **Inline Loading**: "Generating your prompt..." appears in conversation flow
-- **No Overlays**: Clean, non-intrusive loading experience
-- **Visual Feedback**: Animated dots and status updates
-- **User-Friendly**: Maintains conversation context during generation
-
-### **Prompt Builder Integration**
-- **Copy Template**: One-click copy of formatted prompt content to clipboard
-- **Open Prompt Builder**: Direct link to Einstein Prompt Studio in Setup
-- **Formatted Output**: Includes template name, description, content, and variables
-- **Step-by-Step Instructions**: Built-in guidance for creating templates in Prompt Builder
-- **No API Dependencies**: Reliable copy/paste workflow without complex integrations
+- **SLDS2 Compliance**: SLDS2 compliant!
 
 ## 🏗️ **Technical Architecture**
 
@@ -121,13 +95,6 @@ graph TB
     style I fill:#fce4ec
 ```
 
-### **Technology Stack**
-- **Lightning Web Components**: Modern Salesforce component framework
-- **Salesforce Models API**: Native AI integration via Apex
-- **SLDS2 Design System**: Professional Salesforce styling
-- **Responsive CSS**: Mobile-first design approach
-- **Event-Driven Architecture**: Clean component communication
-
 ## 🔧 **Installation & Setup**
 
 ### **Prerequisites**
@@ -181,30 +148,6 @@ graph TB
 - **Include details** about your target audience
 - **Mention any specific** Salesforce objects or processes
 
-## 🎯 **Use Cases**
-
-### **Sales Teams**
-- Lead qualification prompts
-- Sales email templates
-- Follow-up sequences
-- Proposal generation
-
-### **Customer Service**
-- Case resolution prompts
-- Customer communication templates
-- Knowledge base articles
-- Service summaries
-
-### **Marketing Teams**
-- Campaign messaging
-- Social media content
-- Email marketing templates
-- Lead nurturing sequences
-
-### **Administrators**
-- Data analysis prompts
-- Process documentation
-- Training materials
 - System explanations
 
 ## 🔮 **Future Enhancements**
@@ -223,36 +166,12 @@ graph TB
 
 ### **Integration Roadmap**
 - **Flow Builder**: Direct prompt integration
-- **Process Builder**: Automated prompt workflows
-- **Einstein GPT**: Enhanced AI capabilities
 - **External Systems**: API access for other platforms
 
-## 🎨 **Design Philosophy**
-
-### **User Experience**
-- **Intuitive Interface**: Easy to use, professional appearance
-- **Visual Hierarchy**: Clear distinction between elements
-- **Responsive Design**: Works on all devices and screen sizes
-- **Accessibility**: Follows Salesforce accessibility guidelines
-
-### **Professional Appearance**
-- **Clean Layout**: Minimal clutter, maximum functionality
-- **Consistent Styling**: Unified design language throughout
-- **Modern Aesthetics**: Contemporary Salesforce design patterns
-- **Brand Consistency**: Integrates seamlessly with org branding
-
-## 📞 **Support & Feedback**
-
-### **Documentation**
+### **Documentation Used**
 - [Salesforce LWC Developer Guide](https://developer.salesforce.com/docs/component-library/documentation/en/lwc)
 - [SLDS2 Design System](https://www.lightningdesignsystem.com/)
 - [Salesforce Models API](https://developer.salesforce.com/docs/atlas.en-us.apexref.meta/apexref/apex_ai_models.htm)
-
-### **Getting Help**
-- Check the component code for implementation details
-- Review Salesforce LWC best practices
-- Consult Salesforce developer documentation
-- Reach out to the development team
 
 ---
 

@@ -103,31 +103,106 @@ public with sharing class PromptAssistantController {
     private static String buildEnhancedPrompt(String userQuery, Map<String, Object> contextData) {
         String enhancedPrompt = '';
         
-        // System instruction for Salesforce Prompt Builder context
-        enhancedPrompt += 'You are a Salesforce expert specializing in prompt engineering for Salesforce Prompt Builder. ';
-        enhancedPrompt += 'Your task is to create effective prompt templates that can be used in Salesforce workflows, flows, and automation. ';
-        enhancedPrompt += 'The prompts should follow best practices for Salesforce Prompt Builder including:\n\n';
-        enhancedPrompt += '1. Clear, specific instructions\n';
-        enhancedPrompt += '2. Proper variable formatting with {{variableName}}\n';
-        enhancedPrompt += '3. Salesforce-specific terminology and field references\n';
-        enhancedPrompt += '4. Appropriate tone and length for the use case\n';
-        enhancedPrompt += '5. Security and data privacy considerations\n\n';
+        // CRITICAL: Strong system instructions to eliminate LLM fluff
+        enhancedPrompt += 'CRITICAL INSTRUCTIONS: You are a Salesforce prompt engineering expert. ';
+        enhancedPrompt += 'You MUST output ONLY the raw prompt template with NO conversational language, greetings, or explanations. ';
+        enhancedPrompt += 'DO NOT use phrases like "Certainly!", "Let me help you", "Here\'s a template", or any other conversational elements. ';
+        enhancedPrompt += 'Output ONLY the prompt template itself - nothing more, nothing less.\n\n';
+        
+        // Core task definition with comprehensive examples
+        enhancedPrompt += 'TASK: Create a GOLD STANDARD Salesforce Prompt Builder template based on the user request. ';
+        enhancedPrompt += 'Your output must match the quality and structure of these examples:\n\n';
+        enhancedPrompt += 'EXAMPLE GOLD STANDARD TEMPLATES:\n\n';
+        enhancedPrompt += 'SALES EMAIL EXAMPLE:\n';
+        enhancedPrompt += 'You\'re an Account Executive and your name is {!$User.Name} from an organization called {!$User.Company} and you sell commercial solar panels.\n';
+        enhancedPrompt += 'Your prospect is {!$Input:lead.Name} from the company {!$Input:lead.Company}.\n';
+        enhancedPrompt += 'You want to tell your prospect how {!$User.Company} solar panels can help them achieve their sustainability goals and save energy costs.\n';
+        enhancedPrompt += 'When I ask you to generate an introduction email, you must strictly follow my instructions below.\n\n';
+        enhancedPrompt += 'Instructions:\n';
+        enhancedPrompt += '"""\n';
+        enhancedPrompt += 'Use clear, concise, and straightforward language using the active voice and strictly avoiding the use of filler words and phrases and redundant language.\n';
+        enhancedPrompt += 'Generate a subject line that can increase open rate using words and content that is related to the email body content.\n';
+        enhancedPrompt += 'Propose a meeting with your prospect, and express a desire to learn more about their needs.\n';
+        enhancedPrompt += 'Indirectly encourage the prospect to respond to your email by showing that you\'re willing to answer any questions they may have.\n';
+        enhancedPrompt += 'End the email with a clear call to action for the prospect to attend a short meeting.\n';
+        enhancedPrompt += 'CRITICAL: Format your response with proper paragraph spacing and line breaks between sections for readability.\n';
+        enhancedPrompt += 'CRITICAL: Use clear paragraph separation between the introduction, benefits, meeting proposal, and call to action.\n';
+        enhancedPrompt += 'CRITICAL: Ensure each paragraph is properly spaced and easy to read.\n';
+        enhancedPrompt += '"""\n\n';
+        enhancedPrompt += 'Now generate the introduction email to your prospect.\n\n';
+        
+        enhancedPrompt += 'CASE SUMMARY EXAMPLE:\n';
+        enhancedPrompt += 'You are a Customer Service Representative reviewing case {!$Record.CaseNumber} for customer {!$Record.Contact.Name}.\n';
+        enhancedPrompt += 'The case involves {!$Record.Subject} and has a priority of {!$Record.Priority}.\n';
+        enhancedPrompt += 'When I ask you to generate a case summary, you must strictly follow my instructions below.\n\n';
+        enhancedPrompt += 'Instructions:\n';
+        enhancedPrompt += '"""\n';
+        enhancedPrompt += 'Provide a concise summary of the case details, customer information, and current status.\n';
+        enhancedPrompt += 'Include key actions taken, resolution steps, and next steps required.\n';
+        enhancedPrompt += 'Use bullet points for clarity and ensure all critical information is captured.\n';
+        enhancedPrompt += 'CRITICAL: Format your response with proper spacing and structure for easy reading.\n';
+        enhancedPrompt += 'CRITICAL: Use clear section headers and bullet points for organization.\n';
+        enhancedPrompt += '"""\n\n';
+        enhancedPrompt += 'Now generate the case summary.\n\n';
+        
+        enhancedPrompt += 'LEAD QUALIFICATION EXAMPLE:\n';
+        enhancedPrompt += 'You are a Sales Development Representative evaluating lead {!$Input:lead.Name} from {!$Input:lead.Company}.\n';
+        enhancedPrompt += 'The lead has a score of {!$Input:lead.Lead_Score__c} and industry {!$Input:lead.Industry}.\n';
+        enhancedPrompt += 'When I ask you to qualify this lead, you must strictly follow my instructions below.\n\n';
+        enhancedPrompt += 'Instructions:\n';
+        enhancedPrompt += '"""\n';
+        enhancedPrompt += 'Evaluate the lead based on BANT criteria (Budget, Authority, Need, Timeline).\n';
+        enhancedPrompt += 'Provide a qualification score and reasoning for your assessment.\n';
+        enhancedPrompt += 'Recommend next steps and follow-up actions.\n';
+        enhancedPrompt += 'CRITICAL: Structure your response with clear sections and bullet points.\n';
+        enhancedPrompt += 'CRITICAL: Use proper spacing between sections for readability.\n';
+        enhancedPrompt += '"""\n\n';
+        enhancedPrompt += 'Now qualify this lead.\n\n';
+        
+        // Required structure and format
+        enhancedPrompt += 'REQUIRED FORMAT:\n';
+        enhancedPrompt += '1. Start with the prompt template immediately - no introductions\n';
+        enhancedPrompt += '2. Define clear roles and context using merge fields\n';
+        enhancedPrompt += '3. Use proper Salesforce merge field format: {!$User.Name}, {!$Input:record.Field}, {!$Record.Field}\n';
+        enhancedPrompt += '4. Include rigid, specific instructions within the prompt itself\n';
+        enhancedPrompt += '5. Make the prompt self-contained with clear output requirements\n';
+        enhancedPrompt += '6. End with the template - no conclusions or additional text\n\n';
+        
+        // Salesforce-specific requirements
+        enhancedPrompt += 'SALESFORCE REQUIREMENTS:\n';
+        enhancedPrompt += '- Use proper Salesforce merge field syntax: {!$User.Name}, {!$Input:record.Field}, {!$Record.Field}\n';
+        enhancedPrompt += '- Include clear role definitions and context\n';
+        enhancedPrompt += '- Add rigid instructions within the prompt itself\n';
+        enhancedPrompt += '- Make prompts actionable and measurable\n';
+        enhancedPrompt += '- Optimize for automation and workflow integration\n';
+        enhancedPrompt += '- Include data privacy and security considerations\n\n';
         
         // Add context information if available
         if (contextData != null && !contextData.isEmpty()) {
-            enhancedPrompt += 'Context Information:\n';
+            enhancedPrompt += 'CONTEXT INFORMATION:\n';
             for (String key : contextData.keySet()) {
                 enhancedPrompt += '- ' + key + ': ' + contextData.get(key) + '\n';
             }
             enhancedPrompt += '\n';
         }
         
-        // Add the user's specific request
-        enhancedPrompt += 'User Request: ' + userQuery + '\n\n';
-        enhancedPrompt += 'Please create a Salesforce Prompt Builder template that addresses this request. ';
-        enhancedPrompt += 'Include any relevant variables that should be replaced with Salesforce field data. ';
-        enhancedPrompt += 'Make the prompt professional, clear, and actionable. ';
-        enhancedPrompt += 'Format your response as a ready-to-use prompt template.';
+        // User request with specific formatting requirements
+        enhancedPrompt += 'USER REQUEST: ' + userQuery + '\n\n';
+        enhancedPrompt += 'OUTPUT REQUIREMENTS:\n';
+        enhancedPrompt += '- Output ONLY the prompt template\n';
+        enhancedPrompt += '- Follow the gold standard example structure above\n';
+        enhancedPrompt += '- Include clear role definitions and context\n';
+        enhancedPrompt += '- Use proper Salesforce merge field syntax\n';
+        enhancedPrompt += '- Add rigid instructions within the prompt itself\n';
+        enhancedPrompt += '- Make the prompt self-contained and ready for immediate use\n';
+        enhancedPrompt += '- NO conversational language, NO explanations, NO additional text\n';
+        enhancedPrompt += '- CRITICAL: Include formatting instructions for proper spacing and paragraph breaks\n';
+        enhancedPrompt += '- CRITICAL: Specify that responses should have clear paragraph separation and readable formatting\n';
+        enhancedPrompt += '- CRITICAL: Instruct the LLM to use proper line breaks between paragraphs and sections\n';
+        enhancedPrompt += '- CRITICAL: Adapt the template structure to ANY use case (emails, summaries, reports, workflows, etc.)\n';
+        enhancedPrompt += '- CRITICAL: Ensure the prompt can handle ANY Salesforce object or business process\n';
+        enhancedPrompt += '- CRITICAL: Make the template flexible enough for campaigns, cases, leads, opportunities, or any other scenario\n\n';
+        enhancedPrompt += 'BEGIN PROMPT TEMPLATE:';
         
         return enhancedPrompt;
     }
