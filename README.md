@@ -1,13 +1,13 @@
 # Prompt Assistant - Agentforce-Powered LWC App
 
-A modern, professional Lightning Web Component (LWC) application that provides an intelligent chat interface for generating effective prompt templates for Salesforce Prompt Builder. Built with native Agentforce AI capabilities and featuring a polished, avatar-enhanced user experience.
+A modern, professional Lightning Web Component (LWC) application that provides an intelligent chat interface for generating effective prompt templates for Salesforce Prompt Builder. Built with native Agentforce AI capabilities and featuring a polished, avatar-enhanced user experience with seamless Prompt Builder integration.
 
 ## 🚀 **What This App Does**
 
 ### **Core Functionality**
 - **AI-Powered Chat Interface**: ChatGPT-style conversation with Agentforce AI
 - **Smart Prompt Generation**: Creates professional prompt templates for any Salesforce use case
-- **Template Management**: Save, edit, and export prompts to Prompt Builder format
+- **Copy & Paste Integration**: Seamlessly copy templates to Salesforce Prompt Builder
 - **Native Salesforce Integration**: Uses built-in Models API, no external dependencies
 
 ### **Key Features**
@@ -15,6 +15,7 @@ A modern, professional Lightning Web Component (LWC) application that provides a
 - **Avatar System**: Visual distinction between user (blue) and assistant (purple) messages
 - **Smart Suggestions**: Clickable prompt templates that populate the input box
 - **Real-time Generation**: Instant AI-powered prompt creation
+- **Copy & Paste Workflow**: One-click copy to clipboard with Prompt Builder integration
 - **Professional Styling**: SLDS2 compliant with custom enhancements
 
 ## 🎨 **User Experience Features**
@@ -43,6 +44,13 @@ A modern, professional Lightning Web Component (LWC) application that provides a
 - **Visual Feedback**: Animated dots and status updates
 - **User-Friendly**: Maintains conversation context during generation
 
+### **Prompt Builder Integration**
+- **Copy Template**: One-click copy of formatted prompt content to clipboard
+- **Open Prompt Builder**: Direct link to Einstein Prompt Studio in Setup
+- **Formatted Output**: Includes template name, description, content, and variables
+- **Step-by-Step Instructions**: Built-in guidance for creating templates in Prompt Builder
+- **No API Dependencies**: Reliable copy/paste workflow without complex integrations
+
 ## 🏗️ **Technical Architecture**
 
 ### **Component Structure**
@@ -64,6 +72,53 @@ force-app/main/default/lwc/
     ├── promptTemplateForm.html   # Form layout
     ├── promptTemplateForm.js     # Form logic
     └── promptTemplateForm.css    # Form styling
+```
+
+### **System Architecture**
+```mermaid
+graph TB
+    subgraph "Salesforce Org"
+        subgraph "Lightning Web Components"
+            A[promptAssistantApp] --> B[promptChatInterface]
+            A --> C[promptTemplateForm]
+            B --> D[messageItem]
+        end
+        
+        subgraph "Apex Controllers"
+            E[PromptAssistantController]
+            F[PromptTemplateController]
+        end
+        
+        subgraph "Salesforce AI Services"
+            G[Agentforce AI]
+            H[Models API]
+        end
+        
+        subgraph "Setup & Configuration"
+            I[Einstein Prompt Studio]
+            J[Prompt Builder]
+        end
+    end
+    
+    subgraph "User Workflow"
+        K[User Input] --> B
+        B --> E
+        E --> G
+        G --> H
+        H --> B
+        B --> C
+        C --> L[Copy to Clipboard]
+        C --> M[Open Prompt Builder]
+        L --> N[Paste in Prompt Builder]
+        M --> I
+        I --> J
+    end
+    
+    style A fill:#e1f5fe
+    style B fill:#f3e5f5
+    style C fill:#e8f5e8
+    style G fill:#fff3e0
+    style I fill:#fce4ec
 ```
 
 ### **Technology Stack**
@@ -110,7 +165,9 @@ force-app/main/default/lwc/
 2. **Welcome Message**: See the four suggestion buttons
 3. **Click a Suggestion**: Or type your own prompt request
 4. **Generate Prompt**: Click "Generate Prompt" button
-5. **Review & Save**: Use the generated prompt template
+5. **Review & Copy**: Use the "Copy Template" button to copy to clipboard
+6. **Open Prompt Builder**: Click "Open Prompt Builder" to go to Setup
+7. **Create Template**: Paste the content and create your prompt template
 
 ### **Suggestion Templates**
 - **"Create a sales email prompt"** - Sales outreach templates
@@ -152,12 +209,17 @@ force-app/main/default/lwc/
 
 ## 🔮 **Future Enhancements**
 
+### **Implemented Features**
+- ✅ **Copy & Paste Integration**: Direct integration with Prompt Builder via clipboard
+- ✅ **Template Categories**: Organized by business function (Sales, Service, Marketing, etc.)
+- ✅ **Formatted Export**: Structured template output with variables and instructions
+- ✅ **One-Click Setup Access**: Direct link to Einstein Prompt Studio
+
 ### **Planned Features**
 - **Template Library**: Save and share custom prompts
-- **Prompt Categories**: Organized by business function
-- **Export Options**: Direct integration with Prompt Builder
 - **Analytics**: Usage tracking and prompt effectiveness
 - **Multi-language Support**: International prompt generation
+- **Batch Processing**: Generate multiple templates at once
 
 ### **Integration Roadmap**
 - **Flow Builder**: Direct prompt integration

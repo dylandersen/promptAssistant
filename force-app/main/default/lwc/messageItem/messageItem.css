@@ -247,13 +247,9 @@
     display: flex;
     gap: var(--lwc-spacingXSmall);
     margin-top: var(--lwc-spacingSmall);
-    opacity: 0;
+    opacity: 1;
     transition: opacity 0.2s ease;
     justify-content: flex-end;
-}
-
-.message:hover .message-actions {
-    opacity: 1;
 }
 
 .message-action-btn {
@@ -273,6 +269,16 @@
     background: var(--lwc-colorBackground);
     color: var(--lwc-colorTextDefault);
     transform: scale(1.1);
+}
+
+/* White icons for user message actions */
+.message-user .message-action-btn {
+    color: white;
+}
+
+.message-user .message-action-btn:hover {
+    background: rgba(255, 255, 255, 0.2);
+    color: white;
 }
 
 /* Responsive Design */

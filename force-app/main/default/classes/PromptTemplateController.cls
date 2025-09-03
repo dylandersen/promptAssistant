@@ -4,42 +4,8 @@
  */
 public with sharing class PromptTemplateController {
     
-    /**
-     * Save a prompt template
-     * @param templateData JSON string containing template data
-     * @return String ID of the saved template
-     */
-    @AuraEnabled
-    public static String savePromptTemplate(String templateData) {
-        try {
-            // Parse template data
-            Map<String, Object> templateMap = (Map<String, Object>) JSON.deserializeUntyped(templateData);
-            
-            // Validate required fields
-            if (!templateMap.containsKey('name') || String.isBlank((String) templateMap.get('name'))) {
-                throw new AuraHandledException('Template name is required');
-            }
-            
-            if (!templateMap.containsKey('content') || String.isBlank((String) templateMap.get('content'))) {
-                throw new AuraHandledException('Template content is required');
-            }
-            
-            // Create custom object record (if using custom object)
-            // For demo purposes, we'll just return a success message
-            // In production, this would save to a custom object or external system
-            
-            String templateId = 'TEMPLATE_' + String.valueOf(Datetime.now().getTime());
-            
-            // Log template creation for audit purposes
-            System.debug('Prompt Template Created: ' + templateMap.get('name') + ' (ID: ' + templateId + ')');
-            
-            return templateId;
-            
-        } catch (Exception e) {
-            System.debug('Error saving prompt template: ' + e.getMessage());
-            throw new AuraHandledException('Failed to save template: ' + e.getMessage());
-        }
-    }
+
+
     
     /**
      * Retrieve prompt templates
@@ -50,74 +16,40 @@ public with sharing class PromptTemplateController {
     @AuraEnabled
     public static List<Map<String, Object>> getPromptTemplates(String category, Integer limitCount) {
         try {
-            // Mock template data for demonstration
-            // In production, this would query from a custom object or external system
+            // The Connect API classes for prompt templates are not available in this org's API version
+            // Return empty list for now until we identify the correct API approach
             
-            List<Map<String, Object>> templates = new List<Map<String, Object>>();
+            List<Map<String, Object>> templateList = new List<Map<String, Object>>();
             
-            // Sample templates
-            Map<String, Object> template1 = new Map<String, Object>{
-                'id' => 'TEMPLATE_001',
-                'name' => 'Lead Qualification Template',
-                'description' => 'Template for qualifying leads based on BANT criteria',
-                'content' => 'Analyze the lead {{leadName}} from {{company}} in the {{industry}} industry...',
-                'category' => 'lead-qualification',
-                'variables' => new List<String>{'leadName', 'company', 'industry'},
-                'createdDate' => Datetime.now().addDays(-5).format('yyyy-MM-dd HH:mm:ss'),
-                'isPublic' => true
-            };
-            
-            Map<String, Object> template2 = new Map<String, Object>{
-                'id' => 'TEMPLATE_002',
-                'name' => 'Customer Service Response',
-                'description' => 'Standard customer service response template',
-                'content' => 'Thank you for contacting us regarding your {{issueType}}...',
-                'category' => 'customer-service',
-                'variables' => new List<String>{'issueType', 'customerName'},
-                'createdDate' => Datetime.now().addDays(-3).format('yyyy-MM-dd HH:mm:ss'),
-                'isPublic' => true
-            };
-            
-            Map<String, Object> template3 = new Map<String, Object>{
-                'id' => 'TEMPLATE_003',
-                'name' => 'Sales Follow-up Template',
-                'description' => 'Professional follow-up message for sales prospects',
-                'content' => 'Hi {{contactName}}, I hope this message finds you well...',
-                'category' => 'sales',
-                'variables' => new List<String>{'contactName', 'companyName', 'meetingDate'},
-                'createdDate' => Datetime.now().addDays(-1).format('yyyy-MM-dd HH:mm:ss'),
-                'isPublic' => false
-            };
-            
-            templates.add(template1);
-            templates.add(template2);
-            templates.add(template3);
+            // TODO: Implement actual Prompt Builder integration when the correct API is identified
+            // For now, return empty list
             
             // Apply category filter if specified
             if (String.isNotBlank(category)) {
                 List<Map<String, Object>> filteredTemplates = new List<Map<String, Object>>();
-                for (Map<String, Object> template : templates) {
+                for (Map<String, Object> template : templateList) {
                     if (template.get('category') == category) {
                         filteredTemplates.add(template);
                     }
                 }
-                templates = filteredTemplates;
+                templateList = filteredTemplates;
             }
             
             // Apply limit
-            if (limitCount != null && limitCount > 0 && templates.size() > limitCount) {
+            if (limitCount != null && limitCount > 0 && templateList.size() > limitCount) {
                 List<Map<String, Object>> limitedTemplates = new List<Map<String, Object>>();
-                for (Integer i = 0; i < limitCount && i < templates.size(); i++) {
-                    limitedTemplates.add(templates[i]);
+                for (Integer i = 0; i < limitCount && i < templateList.size(); i++) {
+                    limitedTemplates.add(templateList[i]);
                 }
-                templates = limitedTemplates;
+                templateList = limitedTemplates;
             }
             
-            return templates;
+            return templateList;
             
         } catch (Exception e) {
             System.debug('Error retrieving prompt templates: ' + e.getMessage());
-            throw new AuraHandledException('Failed to retrieve templates: ' + e.getMessage());
+            // Fallback to empty list if Connect API fails
+            return new List<Map<String, Object>>();
         }
     }
     
@@ -252,3 +184,4 @@ public with sharing class PromptTemplateController {
         return categories;
     }
 }
+

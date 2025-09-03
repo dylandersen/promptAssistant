@@ -3,14 +3,13 @@ import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 
 export default class PromptTemplateForm extends LightningElement {
     @api promptText = '';
-    @api context7Libraries = [];
+
     
     @track templateName = '';
     @track templateDescription = '';
     @track promptContent = '';
     @track templateCategory = '';
     @track templateVariables = [];
-    @track isSaving = false;
     @track showPreview = false;
     @track isFormValid = false;
 
@@ -76,30 +75,7 @@ export default class PromptTemplateForm extends LightningElement {
         this.validateForm();
     }
 
-    // Variable management
-    handleVariableChange(event) {
-        const index = parseInt(event.target.dataset.index);
-        const field = event.target.dataset.field;
-        const value = event.target.value;
 
-        this.templateVariables[index][field] = value;
-        this.templateVariables = [...this.templateVariables];
-    }
-
-    handleAddVariable() {
-        const newVariable = {
-            id: `var_${Date.now()}`,
-            name: '',
-            description: ''
-        };
-        this.templateVariables = [...this.templateVariables, newVariable];
-    }
-
-    handleRemoveVariable(event) {
-        const index = parseInt(event.target.dataset.index);
-        this.templateVariables.splice(index, 1);
-        this.templateVariables = [...this.templateVariables];
-    }
 
     // Extract variables from prompt content
     extractVariables() {
@@ -132,54 +108,83 @@ export default class PromptTemplateForm extends LightningElement {
     validateForm() {
         this.isFormValid = !!(
             this.templateName.trim() &&
-            this.promptContent.trim() &&
-            this.templateCategory
+            this.promptContent.trim()
         );
     }
 
-    // Save template
-    async handleSaveTemplate() {
+    // Copy template content to clipboard
+    async handleCopyTemplate() {
         if (!this.isFormValid) {
             this.showToast('Error', 'Please fill in all required fields', 'error');
             return;
         }
 
-        this.isSaving = true;
-
         try {
-            const templateData = {
-                name: this.templateName,
-                description: this.templateDescription,
-                content: this.promptContent,
-                category: this.templateCategory,
-                variables: this.templateVariables,
-                context7Libraries: this.context7Libraries,
-                createdDate: new Date().toISOString()
-            };
-
-            // For demo purposes, generate a mock template ID
-            const result = 'TEMPLATE_' + Date.now();
+            // Format the template content for copying
+            const templateText = this.formatTemplateForCopy();
             
-            this.showToast('Success', 'Prompt template saved successfully!', 'success');
+            // Copy to clipboard
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                await navigator.clipboard.writeText(templateText);
+            } else {
+                // Fallback for older browsers
+                const textArea = document.createElement('textarea');
+                textArea.value = templateText;
+                document.body.appendChild(textArea);
+                textArea.select();
+                document.execCommand('copy');
+                document.body.removeChild(textArea);
+            }
+            
+            this.showToast('Success', 'Template content copied to clipboard!', 'success');
             
             // Dispatch event to parent
-            this.dispatchEvent(new CustomEvent('savetemplate', {
+            this.dispatchEvent(new CustomEvent('templatecopied', {
                 detail: {
-                    templateId: result,
-                    templateData: templateData
+                    templateName: this.templateName,
+                    templateContent: templateText
                 }
             }));
 
-            // Reset form
-            this.initializeForm();
-
         } catch (error) {
-            console.error('Error saving template:', error);
-            this.showToast('Error', error.body?.message || 'Failed to save template', 'error');
-        } finally {
-            this.isSaving = false;
+            console.error('Error copying template:', error);
+            this.showToast('Error', 'Failed to copy template to clipboard', 'error');
         }
     }
+    
+    // Format template content for copying
+    formatTemplateForCopy() {
+        const variables = this.templateVariables.length > 0 
+            ? this.templateVariables.map(v => `- ${v.name}${v.description ? ': ' + v.description : ''}`).join('\n')
+            : 'No variables detected';
+            
+        return `=== PROMPT TEMPLATE ===
+Name: ${this.templateName}
+Description: ${this.templateDescription || 'No description provided'}
+Category: ${this.templateCategory || 'General'}
+
+=== PROMPT CONTENT ===
+${this.promptContent}
+
+=== VARIABLES ===
+${variables}
+
+=== INSTRUCTIONS ===
+1. Go to Setup > Prompt Builder (or use the "Open Prompt Builder" button)
+2. Click "New Prompt Template"  
+3. Paste the prompt content from above
+4. Configure the template name, description, and variables as listed
+5. Set the category and save your template`;
+    }
+    
+    // Open Prompt Builder in Setup
+    handleOpenPromptBuilder() {
+        const setupUrl = `/lightning/setup/EinsteinPromptStudio/home`;
+        window.open(setupUrl, '_blank');
+        this.showToast('Info', 'Opening Prompt Builder in a new tab', 'info');
+    }
+    
+
 
     // Preview functionality
     handlePreviewTemplate() {
@@ -216,21 +221,20 @@ export default class PromptTemplateForm extends LightningElement {
             name: this.templateName || 'Untitled Template',
             description: this.templateDescription || 'No description provided',
             variables: this.templateVariables.length,
-            libraries: this.context7Libraries.length,
+            libraries: 0,
             category: this.templateCategory || 'Uncategorized'
         };
     }
 
     // Computed property for form progress
     get isSavingOrInvalid() {
-        return this.isSaving || !this.isFormValid;
+        return !this.isFormValid;
     }
 
     get formProgress() {
         const requiredFields = [
             'templateName',
-            'promptContent',
-            'templateCategory'
+            'promptContent'
         ];
         
         const completedFields = requiredFields.filter(field => {
@@ -239,8 +243,6 @@ export default class PromptTemplateForm extends LightningElement {
                     return !!this.templateName.trim();
                 case 'promptContent':
                     return !!this.promptContent.trim();
-                case 'templateCategory':
-                    return !!this.templateCategory;
                 default:
                     return false;
             }
